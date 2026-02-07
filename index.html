@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 2em;
+            color: #d63384;
+        }
+        .buttons {
+            display: flex;
+            gap: 2em;
+        }
+        button {
+            padding: 1em 2em;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        #yesBtn {
+            background: #28a745;
+            color: white;
+        }
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.4);
+        }
+        #noBtn {
+            background: #dc3545;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+        }
+        #noBtn:hover {
+            position: absolute;
+            top: calc(50% + (50 * (Math.random() - 0.5))vh);
+            left: calc(50% + (50 * (Math.random() - 0.5))vw);
+        }
+        .hidden {
+            display: none;
+        }
+        #success {
+            font-size: 2em;
+            color: #28a745;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="question">Will you be my Valentine, [Name]?</h1>
+    <div class="buttons">
+        <button id="yesBtn">Yes 💕</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+    <div id="success" class="hidden">Yay! I love you too! ❤️</div>
+
+    <script>
+        const question = document.getElementById('question');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const success = document.getElementById('success');
+
+        // Personalize with name (edit here)
+        question.innerHTML = question.innerHTML.replace('[Name]', 'Priya');  // Change to your person's name
+
+        yesBtn.addEventListener('click', () => {
+            document.querySelector('.buttons').classList.add('hidden');
+            success.classList.remove('hidden');
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+            noBtn.style.top = (50 + (Math.random() * 40 - 20)) + '%';
+            noBtn.style.left = (60 + (Math.random() * 40 - 20)) + '%';
+        });
+    </script>
+</body>
+</html>
