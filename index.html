@@ -139,9 +139,27 @@
         @media (max-width: 480px) {
             .buttons { flex-direction: column; gap: 1em; }
         }
+
+        /* Music player - hidden */
+        audio {
+            position: fixed;
+            bottom: 0;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
+    <!-- Background Music (Romantic Piano) - Autoplay + Loop -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <!-- Fallback romantic music links (free) -->
+        <source src="https://www.bensound.com/bensound-music/bensound-sweet.mp3" type="audio/mpeg">
+        Your browser doesn't support audio.
+    </audio>
+
     <div class="container">
         <h1>Will you be my Valentine, Gia? 💕</h1>
         <div class="buttons">
@@ -158,10 +176,22 @@
         const noBtn = document.getElementById('noBtn');
         const buttons = document.querySelector('.buttons');
         const success = document.getElementById('success');
+        const bgMusic = document.getElementById('bgMusic');
+
+        // Try autoplay music (works after first interaction)
+        bgMusic.volume = 0.3; // Quiet background
+        bgMusic.play().catch(e => console.log('Autoplay blocked - plays after click'));
+
+        // Enable music on first user interaction
+        document.addEventListener('click', function enableMusic() {
+            bgMusic.play();
+            document.removeEventListener('click', enableMusic);
+        }, { once: true });
 
         yesBtn.addEventListener('click', () => {
             buttons.classList.add('hidden');
             success.classList.remove('hidden');
+            bgMusic.pause(); // Stop music on Yes!
         });
 
         noBtn.addEventListener('mouseover', (e) => {
