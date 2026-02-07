@@ -7,7 +7,11 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Dancing Script', cursive;
@@ -23,11 +27,14 @@
             position: relative;
         }
 
+        /* Animated heart background */
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: 
                 radial-gradient(circle at 20% 80%, rgba(255,182,193,0.3) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255,105,180,0.3) 0%, transparent 50%),
@@ -109,7 +116,9 @@
             top: 50%;
         }
 
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
 
         #success {
             font-size: clamp(1.5em, 6vw, 3em);
@@ -127,44 +136,15 @@
             50% { transform: scale(1.05); }
         }
 
-        /* MUSIC BUTTON - Cute heart style */
-        #musicBtn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.9);
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5em;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        #musicBtn:hover { transform: scale(1.1); }
-        #musicBtn.playing { background: #ff6b9d; color: white; }
-
         @media (max-width: 480px) {
             .buttons { flex-direction: column; gap: 1em; }
         }
     </style>
 </head>
 <body>
-    <!-- FREE ROMANTIC PIANO MUSIC - Reliable CDN -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser doesn't support audio.
-    </audio>
-
-    <!-- MUSIC CONTROL BUTTON -->
-    <button id="musicBtn" title="Play romantic music 🎵">🎵</button>
-
     <div class="container">
         <h1>Will you be my Valentine, Gia? 💕</h1>
-        <div class="="buttons">
+        <div class="buttons">
             <button id="yesBtn">Yes! ❤️</button>
             <button id="noBtn">No 😢</button>
         </div>
@@ -178,34 +158,14 @@
         const noBtn = document.getElementById('noBtn');
         const buttons = document.querySelector('.buttons');
         const success = document.getElementById('success');
-        const bgMusic = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
-
-        let isPlaying = false;
-
-        // Music toggle button
-        musicBtn.addEventListener('click', async () => {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.textContent = '🎵';
-                musicBtn.classList.remove('playing');
-                isPlaying = false;
-            } else {
-                bgMusic.volume = 0.3;
-                await bgMusic.play();
-                musicBtn.textContent = '❤️';
-                musicBtn.classList.add('playing');
-                isPlaying = true;
-            }
-        });
 
         yesBtn.addEventListener('click', () => {
             buttons.classList.add('hidden');
             success.classList.remove('hidden');
-            bgMusic.pause();
         });
 
         noBtn.addEventListener('mouseover', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
             const x = (Math.random() - 0.5) * window.innerWidth;
             const y = (Math.random() - 0.5) * window.innerHeight;
             noBtn.style.transform = `translate(${x}px, ${y}px)`;
