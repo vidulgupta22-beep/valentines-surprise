@@ -3,94 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>Will You Be My Valentine, Gia? 💕</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Dancing Script', cursive;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-            color: #333;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #ff9ff3, #feca57);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            position: relative;
         }
-        h1 {
-            font-size: 2.5em;
+
+        /* Animated heart background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255,182,193,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,105,180,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255,192,203,0.2) 0%, transparent 50%);
+            animation: float 20s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-20px) rotate(360deg); }
+        }
+
+        .container {
             text-align: center;
-            margin-bottom: 2em;
-            color: #d63384;
+            z-index: 10;
+            position: relative;
+            max-width: 90%;
         }
+
+        h1 {
+            font-size: clamp(2em, 8vw, 4em);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 2em;
+            line-height: 1.2;
+        }
+
         .buttons {
             display: flex;
+            justify-content: center;
+            align-items: center;
             gap: 2em;
+            margin-top: 1em;
+            flex-wrap: wrap;
         }
+
         button {
             padding: 1em 2em;
-            font-size: 1.5em;
+            font-size: clamp(1.2em, 5vw, 1.8em);
+            font-family: inherit;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
+            min-width: 120px;
         }
+
         #yesBtn {
-            background: #28a745;
+            background: linear-gradient(45deg, #ff6b9d, #ff8fab);
             color: white;
         }
+
         #yesBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255,107,157,0.4);
         }
+
         #noBtn {
-            background: #dc3545;
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
             color: white;
-            position: absolute;
-            top: 50%;
-            left: 60%;
-            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
         }
+
         #noBtn:hover {
-            position: absolute;
-            top: calc(50% + (50 * (Math.random() - 0.5))vh);
-            left: calc(50% + (50 * (Math.random() - 0.5))vw);
+            transform: translate(calc(50vw * (Math.random() - 0.5)), calc(50vh * (Math.random() - 0.5)));
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            top: 50%;
         }
+
         .hidden {
-            display: none;
+            display: none !important;
         }
+
         #success {
-            font-size: 2em;
-            color: #28a745;
-            text-align: center;
+            font-size: clamp(1.5em, 6vw, 3em);
+            color: #ff6b9d;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 1s infinite;
+            background: rgba(255,255,255,0.9);
+            padding: 2em;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 480px) {
+            .buttons { flex-direction: column; gap: 1em; }
         }
     </style>
 </head>
 <body>
-    <h1 id="question">Will you be my Valentine, [Name]?</h1>
-    <div class="buttons">
-        <button id="yesBtn">Yes 💕</button>
-        <button id="noBtn">No 😢</button>
+    <div class="container">
+        <h1>Will you be my Valentine, Gia? 💕</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes! ❤️</button>
+            <button id="noBtn">No 😢</button>
+        </div>
+        <div id="success" class="hidden">
+            Yeah I knew it you'd say yes! 😍💖
+        </div>
     </div>
-    <div id="success" class="hidden">Yay! I love you too! ❤️</div>
 
     <script>
-        const question = document.getElementById('question');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
+        const buttons = document.querySelector('.buttons');
         const success = document.getElementById('success');
 
-        // Personalize with name (edit here)
-        question.innerHTML = question.innerHTML.replace('[Name]', 'Priya');  // Change to your person's name
-
         yesBtn.addEventListener('click', () => {
-            document.querySelector('.buttons').classList.add('hidden');
+            buttons.classList.add('hidden');
             success.classList.remove('hidden');
         });
 
-        noBtn.addEventListener('mouseover', () => {
-            noBtn.style.top = (50 + (Math.random() * 40 - 20)) + '%';
-            noBtn.style.left = (60 + (Math.random() * 40 - 20)) + '%';
+        noBtn.addEventListener('mouseover', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (Math.random() - 0.5) * window.innerWidth;
+            const y = (Math.random() - 0.5) * window.innerHeight;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = '50%';
+            noBtn.style.top = '50%';
         });
     </script>
 </body>
